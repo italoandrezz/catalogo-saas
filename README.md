@@ -38,21 +38,21 @@ O Catalogo SaaS centraliza o fluxo comercial:
 
 ## Demo Rapida
 
-![Demo animada do Catalogo SaaS](docs/assets/readme/demo-animada.svg)
+![Demo real do Catalogo SaaS](docs/assets/readme/screenshot-home.png)
 
 ## Capturas de Tela
 
 ### Login com UX de conversao
 
-![Tela de login](docs/assets/readme/screenshot-login.svg)
+![Tela de login](docs/assets/readme/screenshot-login.png)
 
-### Painel principal
+### Landing page
 
-![Tela do dashboard](docs/assets/readme/screenshot-dashboard.svg)
+![Tela inicial](docs/assets/readme/screenshot-home.png)
 
-### Assistente inicial de configuracao
+### Recuperacao de senha
 
-![Tela de onboarding](docs/assets/readme/screenshot-onboarding.svg)
+![Tela de recuperação de senha](docs/assets/readme/screenshot-forgot-password.png)
 
 ## Principais Features
 
