@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Tela de login">
+  <rect width="960" height="540" fill="#f1f5f9"/>
+  <rect x="260" y="60" width="440" height="420" rx="24" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="300" y="120" fill="#0f172a" font-family="Segoe UI, Arial" font-size="30" font-weight="700">Boas-vindas de volta</text>
+  <text x="300" y="150" fill="#64748b" font-family="Segoe UI, Arial" font-size="17">Entre para gerenciar seu catalogo</text>
+  <text x="300" y="205" fill="#334155" font-family="Segoe UI, Arial" font-size="15">E-mail</text>
+  <rect x="300" y="220" width="360" height="44" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="300" y="290" fill="#334155" font-family="Segoe UI, Arial" font-size="15">Senha</text>
+  <rect x="300" y="305" width="360" height="44" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <circle cx="638" cy="327" r="9" fill="#94a3b8"/>
+  <rect x="300" y="370" width="360" height="44" rx="10" fill="#0f172a"/>
+  <text x="467" y="398" fill="#ffffff" font-family="Segoe UI, Arial" font-size="17" font-weight="700">Entrar</text>
+</svg>

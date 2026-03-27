@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Tela de onboarding">
+  <rect width="960" height="540" fill="#f8fafc"/>
+  <rect x="70" y="50" width="820" height="440" rx="20" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="110" y="110" fill="#0f172a" font-family="Segoe UI, Arial" font-size="30" font-weight="700">Assistente inicial de configuracao</text>
+  <rect x="110" y="140" width="740" height="10" rx="5" fill="#e2e8f0"/>
+  <rect x="110" y="140" width="340" height="10" rx="5" fill="#0f172a"/>
+  <rect x="110" y="180" width="740" height="88" rx="12" fill="#f8fafc" stroke="#e2e8f0"/>
+  <rect x="110" y="284" width="740" height="88" rx="12" fill="#f8fafc" stroke="#e2e8f0"/>
+  <rect x="110" y="388" width="740" height="88" rx="12" fill="#f8fafc" stroke="#e2e8f0"/>
+  <circle cx="820" cy="224" r="10" fill="#16a34a"/>
+  <circle cx="820" cy="328" r="10" fill="#94a3b8"/>
+  <circle cx="820" cy="432" r="10" fill="#94a3b8"/>
+</svg>

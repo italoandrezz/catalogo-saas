@@ -12,6 +12,8 @@ Aplicacao full-stack multi-tenant para gestao de catalogo, estoque e vendas, com
 ## Sumario
 
 - [Visao Geral](#visao-geral)
+- [Demo Rapida](#demo-rapida)
+- [Capturas de Tela](#capturas-de-tela)
 - [Principais Features](#principais-features)
 - [Arquitetura](#arquitetura)
 - [Tech Stack](#tech-stack)
@@ -33,6 +35,24 @@ O Catalogo SaaS centraliza o fluxo comercial:
 - Registro de vendas com deducao de estoque.
 - Login com UX otimizada, onboarding inicial e perfil de usuario.
 - Isolamento de dados por tenant (multi-tenant).
+
+## Demo Rapida
+
+![Demo animada do Catalogo SaaS](docs/assets/readme/demo-animada.svg)
+
+## Capturas de Tela
+
+### Login com UX de conversao
+
+![Tela de login](docs/assets/readme/screenshot-login.svg)
+
+### Painel principal
+
+![Tela do dashboard](docs/assets/readme/screenshot-dashboard.svg)
+
+### Assistente inicial de configuracao
+
+![Tela de onboarding](docs/assets/readme/screenshot-onboarding.svg)
 
 ## Principais Features
 
@@ -59,10 +79,26 @@ O Catalogo SaaS centraliza o fluxo comercial:
 
 ## Arquitetura
 
-```text
-Frontend (Next.js) -> Backend API (Spring Boot) -> PostgreSQL
-                              |
-                              -> Redis (rate limit e suporte auth)
+```mermaid
+flowchart LR
+        A[Frontend Next.js] --> B[Backend API Spring Boot]
+        B --> C[(PostgreSQL)]
+        B --> D[(Redis)]
+        B --> E[JWT + Security]
+        A --> F[Proxy Middleware]
+        F --> B
+
+        subgraph Auth
+            E --> G[Login Register Recovery]
+            G --> H[Profile Password Change]
+        end
+
+        subgraph Core
+            B --> I[Products]
+            B --> J[Categories]
+            B --> K[Customers]
+            B --> L[Inventory History]
+        end
 ```
 
 ## Tech Stack
