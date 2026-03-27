@@ -1,190 +1,182 @@
-﻿# Catalog SaaS
+﻿# Catalogo SaaS
 
-Catalog SaaS is a full-stack multi-tenant catalog management application.
+Aplicacao full-stack multi-tenant para gestao de catalogo, estoque e vendas, com foco em produtividade para pequenos e medios negocios.
+
+[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F)](https://spring.io/projects/spring-boot)
+[![Java](https://img.shields.io/badge/Java-17-orange)](https://adoptium.net/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-336791)](https://www.postgresql.org/)
+[![License](https://img.shields.io/badge/license-Private-lightgrey)](#)
+
+## Sumario
+
+- [Visao Geral](#visao-geral)
+- [Principais Features](#principais-features)
+- [Arquitetura](#arquitetura)
+- [Tech Stack](#tech-stack)
+- [Comecando Rapido](#comecando-rapido)
+- [Execucao Local](#execucao-local)
+- [Scripts Uteis](#scripts-uteis)
+- [Configuracao de Ambiente](#configuracao-de-ambiente)
+- [Deploy Producao](#deploy-producao)
+- [API Principal](#api-principal)
+- [Estrutura de Pastas](#estrutura-de-pastas)
+- [Roadmap](#roadmap)
+
+## Visao Geral
+
+O Catalogo SaaS centraliza o fluxo comercial:
+
+- Cadastro de produtos, categorias e clientes.
+- Controle de estoque com historico de movimentacoes.
+- Registro de vendas com deducao de estoque.
+- Login com UX otimizada, onboarding inicial e perfil de usuario.
+- Isolamento de dados por tenant (multi-tenant).
+
+## Principais Features
+
+### Autenticacao e Conta
+
+- Cadastro, login, logout e recuperacao de senha.
+- Perfil de usuario com edicao de dados e alteracao de senha.
+- Mensagens guiadas no login para acelerar conversao.
+- Opcao de lembrar e-mail no login.
+- Mostrar/ocultar senha no campo de senha.
+
+### Onboarding e UX
+
+- Assistente inicial de configuracao para primeiros passos.
+- Banner no painel para continuar onboarding pendente.
+- Rotas protegidas por proxy middleware no frontend.
+
+### Catalogo e Operacao
+
+- CRUD de produtos, categorias e clientes.
+- Operacoes de estoque: adicionar, ajustar e registrar venda.
+- Historico de operacoes de estoque.
+- Catalogo publico por tenant.
+
+## Arquitetura
+
+```text
+Frontend (Next.js) -> Backend API (Spring Boot) -> PostgreSQL
+                              |
+                              -> Redis (rate limit e suporte auth)
+```
 
 ## Tech Stack
 
-- Frontend: Next.js 16, TypeScript, Tailwind CSS
-- Backend: Java 17, Spring Boot 3, Spring Security, JWT
-- Database: PostgreSQL
-
-## Features
-
-- Authentication with register and login
-- JWT-based API security
-- Multi-tenant data isolation by tenant
-- Full CRUD for products, categories and customers
-- Protected frontend routes with middleware
-- Clean Code modular structure (services, hooks, reusable forms)
-
-## Project Structure
-
-- frontend (this workspace root)
-  - src/app: routes and pages
-  - src/services: API service layer
-  - src/hooks: UI state/action hooks
-  - src/components: reusable UI, forms and layouts
-- backend
-  - src/main/java/com/catalogo/api
-    - controller: REST endpoints
-    - service: business rules
-    - repository: persistence layer
-    - model: entities and DTOs
-    - security: JWT and auth filters
-    - exception: global error handling
-  - src/main/resources: backend configuration
-
-## Requirements
-
-- Node.js 20+
-- Java 17+
-- Maven 3.9+
-- PostgreSQL 14+
-
-## VS Code Java Setup (Lombok)
-
-To avoid false editor diagnostics in the backend (especially Lombok-generated methods), use this setup in VS Code:
-
-1. Install extensions:
-  - `Language Support for Java(TM) by Red Hat`
-  - `Lombok Annotations Support for VS Code`
-2. Ensure VS Code is using Java 17 for the Java language server.
-3. Reload the Java workspace after opening `backend/pom.xml`.
-
-Validation command (source of truth):
-
-```bash
-mvn -f backend/pom.xml test
-```
-
-If this command passes, backend compile/test state is healthy even when the editor still shows stale Lombok diagnostics.
-
-## Environment Configuration
-
 ### Frontend
 
-1. Copy [.env.example](.env.example) to `.env.local`
-2. Adjust values if needed
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- Vitest + Testing Library
+- Playwright (E2E)
 
 ### Backend
 
-1. Copy [backend/.env.example](backend/.env.example)
-2. Export environment variables in your shell or IDE run configuration
+- Java 17
+- Spring Boot 3
+- Spring Security + JWT
+- Flyway
+- Maven
 
-Important: Do not use default secrets in production.
+### Infra
 
-## Database Setup
+- Docker / Docker Compose
+- PostgreSQL
+- Redis
+- Caddy (stack de producao)
 
-1. Create database:
+## Comecando Rapido
 
-```sql
-CREATE DATABASE catalogo_db;
-```
-
-2. Ensure PostgreSQL credentials match backend env vars.
-
-## Run Locally
-
-### 1. Start backend
+Se voce quer rodar tudo com Docker (recomendado para iniciar rapido):
 
 ```bash
-mvn -f backend/pom.xml spring-boot:run
+docker compose up -d --build
 ```
 
-Backend API: http://localhost:8080
+Servicos esperados:
 
-### 2. Start frontend
+- Frontend: http://localhost:3000
+- Backend: http://localhost:8080
+- Health backend: http://localhost:8080/api/public/health
+
+## Execucao Local
+
+### 1) Frontend
 
 ```bash
 npm install
 npm run dev
 ```
 
-Frontend app: http://localhost:3000
+### 2) Backend
 
-## Build
+```bash
+mvn -f backend/pom.xml spring-boot:run
+```
+
+### 3) Banco
+
+Crie o banco local:
+
+```sql
+CREATE DATABASE catalogo_db;
+```
+
+## Scripts Uteis
 
 ### Frontend
 
 ```bash
+npm run dev
 npm run build
+npm run start
+npm run test:run
+npm run test:e2e
 ```
 
 ### Backend
 
 ```bash
+mvn -f backend/pom.xml test
 mvn -f backend/pom.xml clean package -DskipTests
 ```
 
-## Production (Secure Compose)
+## Configuracao de Ambiente
 
-1. Copy [.env.example](.env.example) to `.env` and define secure values for:
+### Frontend
 
-- `POSTGRES_PASSWORD`
-- `JWT_SECRET`
-- `APP_DOMAIN`
-- `ACME_EMAIL`
+1. Copie `.env.example` para `.env.local`.
+2. Ajuste valores se necessario.
 
-2. Start production stack with HTTPS reverse proxy:
+### Backend
 
-```bash
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-```
+1. Use `backend/.env.example` como base.
+2. Configure variaveis no shell, IDE ou compose.
 
-## Production Deploy Guide
+Importante: nunca use segredos padrao em producao.
 
-Recommended target for this project size: a Linux VPS with Docker Engine and Docker Compose plugin.
+## Deploy Producao
 
-### 1. Prepare the server
+### Stack recomendada
 
-- Ubuntu 22.04 or 24.04
-- 2 vCPU
-- 4 GB RAM
-- 40 to 80 GB SSD
-- Open ports `80`, `443` and optionally `22` for SSH
+- Linux VPS (Ubuntu 22.04/24.04)
+- 2 vCPU, 4 GB RAM
+- Portas 80 e 443 abertas
 
-### 2. Point your domain
-
-- Create an `A` record for your domain or subdomain pointing to the VPS public IP
-- Wait for DNS propagation before requesting HTTPS certificates
-
-### 3. Install Docker on the VPS
-
-```bash
-curl -fsSL https://get.docker.com | sh
-sudo usermod -aG docker $USER
-```
-
-Log out and back in after changing the Docker group.
-
-### 4. Upload the project
-
-```bash
-git clone <SEU_REPOSITORIO>
-cd catologo-project
-```
-
-### 5. Create the production environment file
+### Subida segura (HTTPS)
 
 ```bash
 cp .env.example .env
-```
-
-Then edit `.env` with real production values:
-
-- `POSTGRES_PASSWORD`: strong database password
-- `JWT_SECRET`: secret with at least 32 random characters
-- `APP_DOMAIN`: real public domain, for example `catalogo.seudominio.com`
-- `ACME_EMAIL`: e-mail used by Let's Encrypt
-- `CORS_ALLOWED_ORIGINS`: not required in the production override, because it is injected automatically from `APP_DOMAIN`
-
-### 6. Start production
-
-```bash
 docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 ```
 
-### 7. Validate the deployment
+### Validacao
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.prod.yml ps
@@ -192,65 +184,95 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml logs -f caddy
 docker compose -f docker-compose.yml -f docker-compose.prod.yml logs -f backend
 ```
 
-Expected result:
-
-- Only Caddy is publicly exposed on ports `80` and `443`
-- Frontend, backend, Postgres and Redis stay internal to the Docker network
-- HTTPS certificates are issued automatically by Let's Encrypt
-
-### 8. Update after changes
-
-```bash
-git pull
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-```
-
-### 9. Backup recommendation
-
-- Back up the Docker volume used by PostgreSQL
-- Back up the uploads volume
-- Keep a copy of the `.env` file in a secure password manager or secrets vault
-
-Notes:
-
-- PostgreSQL is not exposed publicly in production override.
-- Caddy terminates HTTPS on ports 80/443 and proxies `/api` and `/uploads` to backend.
-- `CORS_ALLOWED_ORIGINS` is set to `https://${APP_DOMAIN}` in production override.
-
-## API Endpoints
+## API Principal
 
 ### Auth
 
 - POST `/api/auth/register`
 - POST `/api/auth/login`
+- POST `/api/auth/logout`
+- GET `/api/auth/profile`
+- PUT `/api/auth/profile`
+- POST `/api/auth/password/change`
 
-### Products
+### Produtos
 
 - GET `/api/products`
-- GET `/api/products/{id}`
 - POST `/api/products`
 - PUT `/api/products/{id}`
 - DELETE `/api/products/{id}`
 
-### Categories
+### Categorias
 
 - GET `/api/categories`
 - POST `/api/categories`
 - PUT `/api/categories/{id}`
 - DELETE `/api/categories/{id}`
 
-### Customers
+### Clientes
 
 - GET `/api/customers`
 - POST `/api/customers`
 - PUT `/api/customers/{id}`
 - DELETE `/api/customers/{id}`
 
-## Production Hardening Checklist
+### Estoque
 
-- Replace JWT secret and DB credentials with secure values
-- Configure CORS allowed origins for real domains
-- Set `SPRING_JPA_HIBERNATE_DDL_AUTO=validate` and use migrations (Flyway/Liquibase)
-- Add automated test suites (unit + integration + e2e)
-- Add observability (logs, metrics, health checks)
-- Add CI/CD pipeline and containerization
+- GET `/api/inventory/history`
+- POST `/api/inventory/{productId}/add`
+- POST `/api/inventory/{productId}/set`
+- POST `/api/inventory/{productId}/sale`
+
+## Estrutura de Pastas
+
+```text
+.
+|- src/
+|  |- app/
+|  |- components/
+|  |- hooks/
+|  |- services/
+|  |- lib/
+|- backend/
+|  |- src/main/java/com/catalogo/api/
+|  |  |- controller/
+|  |  |- service/
+|  |  |- repository/
+|  |  |- security/
+|  |  |- model/
+|  |- src/main/resources/
+|- docker-compose.yml
+|- docker-compose.prod.yml
+```
+
+## VS Code + Java (Lombok)
+
+Para evitar falso positivo de editor no backend com Lombok:
+
+1. Instale as extensoes Java e Lombok no VS Code.
+2. Garanta Java 17 no language server.
+3. Recarregue o workspace apos abrir `backend/pom.xml`.
+
+Comando fonte de verdade:
+
+```bash
+mvn -f backend/pom.xml test
+```
+
+## Roadmap
+
+- [x] Auth + perfil + alteracao de senha
+- [x] CRUD principal (produtos/categorias/clientes)
+- [x] Operacoes de estoque e historico
+- [x] Onboarding inicial
+- [ ] Importacao em lote (CSV)
+- [ ] Dashboard com KPIs de conversao e giro
+- [ ] Notificacoes de estoque critico
+
+## Contribuicao
+
+Projeto privado. Se voce faz parte do time:
+
+1. Crie branch por feature.
+2. Rode testes antes do push.
+3. Abra PR com contexto e impacto.
