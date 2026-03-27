@@ -1,0 +1,1 @@
+ALTER TABLE produtos ADD COLUMN IF NOT EXISTS desconto_percentual INTEGER DEFAULT 0;

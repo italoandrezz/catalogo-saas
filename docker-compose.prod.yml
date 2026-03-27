@@ -1,0 +1,41 @@
+services:
+  postgres:
+    ports: !reset []
+
+  backend:
+    environment:
+      CORS_ALLOWED_ORIGINS: https://${APP_DOMAIN}
+      AUTH_COOKIE_SECURE: "true"
+      AUTH_COOKIE_SAME_SITE: Strict
+      APP_SECURITY_TRUST_PROXY_HEADERS: "true"
+      AUTH_LOGIN_REDIS_ENABLED: "true"
+    ports: !reset []
+
+  redis:
+    ports: !reset []
+
+  frontend:
+    environment:
+      NEXT_PUBLIC_API_URL: https://${APP_DOMAIN}
+    ports: !reset []
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: catalog-caddy
+    depends_on:
+      - frontend
+      - backend
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

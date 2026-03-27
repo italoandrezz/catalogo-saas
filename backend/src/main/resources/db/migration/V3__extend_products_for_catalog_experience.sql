@@ -1,0 +1,6 @@
+ALTER TABLE produtos
+    ADD COLUMN IF NOT EXISTS imagens_galeria TEXT,
+    ADD COLUMN IF NOT EXISTS variacoes TEXT,
+    ADD COLUMN IF NOT EXISTS badge_novo BOOLEAN DEFAULT false,
+    ADD COLUMN IF NOT EXISTS badge_promocao BOOLEAN DEFAULT false,
+    ADD COLUMN IF NOT EXISTS badge_mais_vendido BOOLEAN DEFAULT false;
